@@ -1,6 +1,7 @@
 import { getPrismaClient } from "../db/prisma-client.js";
+import { AppError } from "../utils/App-error.js";
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
   try {
     const prismaInst = await getPrismaClient();
     return await prismaInst.user.findMany();
@@ -10,9 +11,11 @@ const getAllUsers = async () => {
   }
 };
 
-const createUser = async (name, email, pass, role = "student") => {
+export const createUser = async (name, email, pass, role = "student") => {
   try {
     const prismaInst = await getPrismaClient();
+    console.log("this is email", email);
+    
     const newUser = await prismaInst.user.create({
       data: {
         name,
@@ -33,42 +36,55 @@ const createUser = async (name, email, pass, role = "student") => {
   }
 };
 
-const updateUser = async (name, email , pass, role = "student") => {
-    try {
-        const prismaInst = await getPrismaClient();
-        const updateUsers = await prismaInst.user.update(
-            {
-                where : {email},
-                data : {
-                    name ,
-                    password : pass,
-                    role
-                }
-            }
-        );
-        return updateUsers;
-    } catch (error) {
-      console.log(error);
-    }
-}
+export const updateUser = async (id, name, role, pass) => {
+  const prisma = await getPrismaClient();
+  return await prisma.user.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      name,
+      role,
+      password : pass
+    },
+  });
+};
 
-const deleteUser = async (email) =>{
+export const deleteUser = async (id) =>{
      try {
         const prismaInst = await getPrismaClient();
         const deleteUsers = await prismaInst.user.delete(
           {
             where : {
-              email : email
+              id : Number(id)
             },
           });
         return deleteUser;
      } catch (error) {
-        console.log(error);
+        throw new AppError(error.message , 1122);
      }
 }
 
-const createUserResult = await createUser("jhon1" , "jhone1@gmail.com", "jhh@123");
-console.log(createUserResult);
+export const getUserByEmail = async(email)=>{
+  try {
+    const prismaInst = await getPrismaClient();
+    const user = await prismaInst.user.findUnique({
+      where : {email : email},
+    });
+    return user;
+  } catch (error) {
+    console.log(error);   
+  }
+}
 
-const results = await getAllUsers();
-console.log(results);
+export const getUserById = async (id) => {
+  try {
+    const prisma = await getPrismaClient();
+    const user = await prisma.user.findUnique({
+      where: { id: id }
+    });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}

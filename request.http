@@ -1,3 +1,25 @@
 ##
 
-GET http://localhost:3000/test-db
+GET http://localhost:3000/users HTTP/1.1
+
+### Create user
+POST http://localhost:3000/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "vaibhav",
+  "email": "vaibhav@gmail.com",
+  "password": "656446@g",
+  "role": "teacher"
+}
+
+### Edit users
+PATCH http://localhost:3000/users/59 HTTP/1.1
+Content-Type: application/json
+
+{
+  "role": "teacher"
+}
+
+### Delete users
+DELETE http://localhost:3000/users/59 HTTP/1.1
