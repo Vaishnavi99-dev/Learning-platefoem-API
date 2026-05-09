@@ -5,6 +5,7 @@ import {
   NotFoundError,
   UnderMaintainance,
 } from "../utils/App-error.js";
+import { hashPassword } from "../utils/utilityFunctions.js";
 
 export const createUser = async (name, email, pass, role = "student") => {
   try {
@@ -47,17 +48,19 @@ export const createUser = async (name, email, pass, role = "student") => {
       throw new BadRequestError("User already exists with this email.");
     }
 
+    const hashedPassword = await hashPassword(pass);
+
     // Create user
     const newUser = await repo.createUser(
       normalizedName,
       normalizedEmail,
-      pass,
+      hashedPassword,
       normalizedRole,
     );
 
     // Return safe response
     return {
-      id: newUser.id,
+      id: newUser.id, 
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
@@ -135,7 +138,9 @@ export const updateUser = async (id, name, password, role) => {
       throw new NotFoundError("User with this id does not exist.");
     }
 
-    const updateUsers = await repo.updateUser(id, name, role, password);
+    const hashedPassword = await hashPassword(password);
+
+    const updateUsers = await repo.updateUser(id, name, role, hashedPassword);
     const safeUser = {
       id: updateUsers.id,
       name: updateUsers.name,
