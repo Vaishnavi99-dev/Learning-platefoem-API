@@ -7,19 +7,23 @@ POST http://localhost:3000/users HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "vaibhav",
-  "email": "vaibhav@gmail.com",
-  "password": "656446@g",
-  "role": "teacher"
+  "name": "abcd123",
+  "email": "abc@gmail.com",
+  "password": "Yash@123344",
+  "role": "admin"
 }
 
 ### Edit users
-PATCH http://localhost:3000/users/59 HTTP/1.1
+PATCH http://localhost:3000/users/61 HTTP/1.1
 Content-Type: application/json
 
 {
-  "role": "teacher"
+    "name": "chandanS"
 }
 
 ### Delete users
-DELETE http://localhost:3000/users/59 HTTP/1.1
+DELETE http://localhost:3000/users/61 HTTP/1.1
+
+
+### Get Course by Query
+# GET http://localhost:3000/courses?title=NestJs HTTP/1.1
