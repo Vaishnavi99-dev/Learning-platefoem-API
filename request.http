@@ -1,6 +1,7 @@
 ##
 
 GET http://localhost:3000/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjYsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzc4NTI1MjE0LCJleHAiOjE3Nzg2MTE2MTR9.IbbRkD8t843nP3pPUiG9KYUQ8axjuAUJjWW47E5EfFM
 
 ### Create user
 POST http://localhost:3000/users HTTP/1.1
@@ -27,3 +28,12 @@ DELETE http://localhost:3000/users/61 HTTP/1.1
 
 ### Get Course by Query
 # GET http://localhost:3000/courses?title=NestJs HTTP/1.1
+
+### generate token
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "anil@gmail.com",
+  "password": "12345678"
+}

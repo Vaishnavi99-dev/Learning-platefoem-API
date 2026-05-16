@@ -4,6 +4,7 @@ import { BadRequestError, NotFoundError } from "../utils/App-error.js";
 
 export const fetchUsers = async (req, res, next) => {
   try {
+    console.log("CONTROLLER:", req.user);
     const users = await userService.getAllUsers();
     return sendSuccess(res, users, "Users retrieved successfully");
   } catch (error) {
